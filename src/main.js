@@ -1,5 +1,7 @@
 "use strict";
 
+import apiKeys from "../config.js";
+
 // Global variables to play with the dynamic data
 let userCity;
 let userCurrentTime;
@@ -175,6 +177,9 @@ const lastValueSlider = () => {
 		getWeatherInfo();
 	}
 };
+
+window.rangeSliderManagement = rangeSliderManagement;
+window.lastValueSlider = lastValueSlider;
 
 //# Ler horário
 const getUserTime = function () {
