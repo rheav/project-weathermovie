@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<link
+			href="/output.css"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/icon?family=Material+Icons"
+			rel="stylesheet"
+		/>
+	</head>
+	<body class="min-h-screen h-full w-screen bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.5),rgba(255,255,255,0.1))] overflow-x-hidden">
+		<main class="py-10">
+			<div class="h-full px-8 mx-auto lg:px-16 xl:px-32">
+				<div class="mb-4 text-2xl font-thin text-white lg:text-5xl">
+					Well,
+					<span
+						id="local-weather"
+						class="text-2xl font-thin lg:text-5xl text-violet-200"
+					></span>
+					in
+					<span
+						id="user-city"
+						class="text-2xl font-thin lg:text-5xl text-violet-200"
+					></span>
+					huh?
+				</div>
+				<div class="text-2xl font-thin text-white lg:text-5xl mb-7">
+					This
+					<span
+						id="user-day"
+						class="text-2xl font-thin lg:text-5xl text-violet-200"
+					></span>
+					<span
+						id="user-current-time"
+						class="text-2xl font-thin lg:text-5xl text-violet-200"
+					></span>
+					is
+					<span
+						id="local-weather-expression"
+						class="text-2xl font-thin lg:text-5xl text-violet-200"
+					></span>
+					as well, isn't it?
+				</div>
+				<div class="text-xl font-thin text-white lg:text-3xl">Perfect ambience for a movie session...</div>
+				<div class="text-xl font-thin text-white lg:text-3xl">Actually, I just found the perfect movie for you today, check this out:</div>
+				<div class="flex flex-col justify-center mt-5">
+					<h2 class="text-xl font-thin text-violet-400 lg:text-3xl">Select your suggestion mode:</h2>
+					<div class="grid grid-cols-3 w-[200px]">
+						<input
+							class="col-span-3 my-5 mb-3"
+							type="range"
+							name="queryMode"
+							oninput="rangeSliderManagement()"
+							onchange="lastValueSlider()"
+							min="1"
+							step="1"
+							id="queryModeInput"
+							max="10000"
+							value="5000"
+						/>
+						<label
+							for="queryMode"
+							id="queryModeCaption"
+							class="grid grid-cols-3 col-span-3 text-sm font-light text-white transition delay-300 lg:text-md"
+						>
+							<span
+								id="inputHipster"
+								class="col-span-1 transition duration-300 opacity-0 justify-self-start"
+								>Hipster</span
+							>
+							<span
+								id="inputMix"
+								class="col-span-1 transition duration-300 justify-self-center"
+								>Mix</span
+							>
+							<span
+								id="inputMainstream"
+								class="col-span-1 transition duration-300 opacity-0 justify-self-end"
+								>Mainstream</span
+							>
+						</label>
+					</div>
+				</div>
+				<div
+					id="container-movie-gallery"
+					class="grid h-full grid-cols-1 gap-2 mt-10 md:grid-cols-2 lg:grid-cols-4 gap-y-8"
+				></div>
+			</div>
+		</main>
+		<script src="main.js"></script>
+
+		<link
+			href="https://fonts.googleapis.com/icon?family=Material+Icons"
+			rel="stylesheet"
+		/>
+	</body>
+</html>
