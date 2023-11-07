@@ -1,7 +1,5 @@
 "use strict";
 
-import apiKeys from "../config.js";
-
 // Global variables to play with the dynamic data
 let userCity;
 let userCurrentTime;
@@ -223,7 +221,7 @@ const getIpInfo = async function () {
 
 //# Obter clima e temperatura
 const getWeatherInfo = async function () {
-	const url = `http://api.weatherapi.com/v1/current.json?key=${apiKeys.weatherApiKEY}&q=${userCity}&aqi=no`;
+	const url = `http://localhost:5000/weather?city=${userCity}`;
 	const response = await fetch(url);
 	const result = await response.json();
 
@@ -253,27 +251,10 @@ const getWeatherInfo = async function () {
 
 //# Passar query para OpenAI e obter sugestões de filmes
 const getMovieSuggestions = async function () {
-	const url = "https://api.openai.com/v1/chat/completions";
-	const bearer = `Bearer ${apiKeys.openAiKEY}`;
-	console.log(queryMode);
+	const url = `http://localhost:5000/movie-suggestion?queryMode=${queryMode}`;
+	//console.log(queryMode);
 
-	const response = await fetch(url, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			Authorization: bearer,
-		},
-		body: JSON.stringify({
-			model: "gpt-3.5-turbo",
-			messages: [
-				{
-					role: "user",
-					content: queryMode,
-				},
-			],
-			temperature: 1,
-		}),
-	});
+	const response = await fetch(url);
 
 	const result = await response.json();
 	//(result.choices[0].message.content);
@@ -302,30 +283,28 @@ const getMovieSuggestions = async function () {
 	//console.log(moviesSuggestedRandom);
 
 	fetchMoviesAsync(moviesSuggestedRandom);
+	//console.log(moviesSuggestedRandom);
 };
 
 const fetchMoviesAsync = async (moviesToBeSearched) => {
-	const bulkCardBuilding = moviesToBeSearched.map((movie) => getMovie(movie));
-	await Promise.all(bulkCardBuilding);
+	for (const movieTitle of moviesToBeSearched) {
+		await getMovie(movieTitle);
+	}
 
-	movieList.map((movie, index) => cardBuilder(movie, index));
+	// Now you should have the correct data in movieList
+	// You can also process the movies or perform additional actions here
+	movieList.map((movie, index) => {
+		cardBuilder(movie, index);
+	});
 };
 
 // Agora eu vou buscar os filmes pelo título, e pra cada título vou fazer uma query. Vou usar um map na função de getMovieSuggestions pra cada movie da array
 //# Buscar os filmes a partir do título na TMDBmovieTitle
 const getMovie = async function (movieTitle) {
-	const fetchMovieURL = `https://api.themoviedb.org/3/search/movie?query=${movieTitle}&include_adult=false&language=en-US&page=1`;
-
-	const options = {
-		method: "GET",
-		headers: {
-			accept: "application/json",
-			Authorization: apiKeys.tmdbApiKEY,
-		},
-	};
+	const url = `http://localhost:5000/movie-info?movieTitle=${movieTitle}`;
 
 	// Make request, storing response
-	const response = await fetch(fetchMovieURL, options);
+	const response = await fetch(url);
 
 	// Decode JSON response
 	const result = await response.json();
@@ -334,7 +313,6 @@ const getMovie = async function (movieTitle) {
 	const movieData = result.results[0];
 	// Output in console
 	movieList.push(movieData);
-	//console.log(movieData);
 };
 
 const getStreamingAvailability = async (tmdbId) => {
@@ -380,7 +358,7 @@ const cardBuilder = async function (chosenMovie, index) {
 	const cardInfo = document.createElement("div");
 	cardInfo.setAttribute(
 		"class",
-		" flex px-3 pt-3 pb-4 w-full flex-col rounded-b-lg h-44 lg:h-52 bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]  transition duration-300 ease-in"
+		" flex px-3 pt-3 pb-4 w-full flex-col rounded-b-lg h-44 md:h-52 bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]  transition duration-300 ease-in"
 	);
 
 	// Bloco para Notas e Popularidade
