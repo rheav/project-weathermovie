@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const port = 5000;
 require("dotenv").config();
 
 app.use(
@@ -70,6 +69,4 @@ app.get("/movie-info", async (req, res) => {
 	res.json(result);
 });
 
-app.listen(port, () => {
-	console.log(`Server is running on port ${port}`);
-});
+app.listen(() => {});
