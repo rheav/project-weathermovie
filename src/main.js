@@ -13,8 +13,8 @@ let moviesSuggestedRandom = [];
 let movieList = [];
 let availableStreamingOptions = [];
 
-const url = "https://backEndMovieWeather.onrender.com/";
-//const url = "http://localhost:5000/";
+//const url = "https://backEndMovieWeather.onrender.com/";
+const url = "http://localhost:5000";
 
 const promptsAccordingToMood = [
 	{
@@ -210,9 +210,10 @@ const getUserTime = function () {
 
 //# Ler IP
 const getIpInfo = async function () {
-	const url = `http://ip-api.com/json/`;
-	const response = await fetch(url);
+	const fetchUrl = `https://ipapi.co/json`;
+	const response = await fetch(fetchUrl);
 	const result = await response.json();
+	console.log(result);
 
 	// Passar dados para o DOM
 	userCity = result.city;
@@ -224,8 +225,8 @@ const getIpInfo = async function () {
 
 //# Obter clima e temperatura
 const getWeatherInfo = async function () {
-	const url = `${url}/weather?city=${userCity}`;
-	const response = await fetch(url);
+	const fetchUrl = `${url}/weather?city=${userCity}`;
+	const response = await fetch(fetchUrl);
 	const result = await response.json();
 
 	// Passar dados para o DOM
@@ -254,13 +255,13 @@ const getWeatherInfo = async function () {
 
 //# Passar query para OpenAI e obter sugestões de filmes
 const getMovieSuggestions = async function () {
-	const url = `${url}/movie-suggestion?queryMode=${queryMode}`;
+	const fetchUrl = `${url}/movie-suggestion?queryMode=${queryMode}`;
 	//console.log(queryMode);
 
-	const response = await fetch(url);
+	const response = await fetch(fetchUrl);
 
 	const result = await response.json();
-	//(result.choices[0].message.content);
+	result.choices[0].message.content;
 
 	//  Tratando retorno da OpenAI e transformando em array limpa
 	fetchedMovies = result.choices[0].message.content.split("\n").map((movie) => movie.replace(/^\d+\.\s+/, "").replace(/^"(.*)"$/, "$1")); // removing listing numbers and extra quotation marks
@@ -304,10 +305,10 @@ const fetchMoviesAsync = async (moviesToBeSearched) => {
 // Agora eu vou buscar os filmes pelo título, e pra cada título vou fazer uma query. Vou usar um map na função de getMovieSuggestions pra cada movie da array
 //# Buscar os filmes a partir do título na TMDBmovieTitle
 const getMovie = async function (movieTitle) {
-	const url = `${url}/movie-info?movieTitle=${movieTitle}`;
+	const fetchUrl = `${url}/movie-info?movieTitle=${movieTitle}`;
 
 	// Make request, storing response
-	const response = await fetch(url);
+	const response = await fetch(fetchUrl);
 
 	// Decode JSON response
 	const result = await response.json();
@@ -319,7 +320,7 @@ const getMovie = async function (movieTitle) {
 };
 
 /* const getStreamingAvailability = async (tmdbId) => {
-	const url = `https://streaming-availability.p.rapidapi.com/get/basic?country=br&tmdb_id=movie%2F${tmdbId}&output_language=en`;
+	const fetchUrl = `https://streaming-availability.p.rapidapi.com/get/basic?country=br&tmdb_id=movie%2F${tmdbId}&output_language=en`;
 	const options = {
 		method: "GET",
 		headers: {
@@ -329,7 +330,7 @@ const getMovie = async function (movieTitle) {
 	};
 
 	try {
-		const response = await fetch(url, options);
+		const response = await fetch(fetchUrl, options);
 		const result = await response.json();
 		let streamingChannelsReturned;
 		streamingChannelsReturned = Object.keys(result.streamingInfo);
