@@ -4,8 +4,11 @@ const app = express();
 const port = 5000;
 require("dotenv").config();
 
-app.use(cors());
-
+app.use(
+	cors({
+		origin: "https://moviebyweather-un1s.onrender.com",
+	})
+);
 app.use(express.json());
 
 // Get user's locale weather info
