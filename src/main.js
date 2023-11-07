@@ -13,6 +13,9 @@ let moviesSuggestedRandom = [];
 let movieList = [];
 let availableStreamingOptions = [];
 
+const url = "https://moviebyweather.onrender.com/";
+//const url = "http://localhost:5000/";
+
 const promptsAccordingToMood = [
 	{
 		hipster: `First: DONT SEND ANYTHING ELSE BESIDE MOVIE TITLES! AGAIN, ONLY PLACE MOVIE TITLES IN YOUR RESPONSE. Suggest the perfect 20 movies for a ${localWeather} ${userDayOfTheWeek} ${userCurrentTime}, in a ${localWeatherExpression} weather. FOCUS ON UNKNOW MOVIES THAT MIGHT SURPRISE THE PUBLIC. THIS IS IMPORTANT: AVOID POPULAR MAINSTREAM MOVIES. Also  provide only the movie titles, no subtitles, sinopsis or anything. This is important. Also, please avoid ambiguous movies, I need to be able to find the movies only by the title. AND PLEASE JUST POST HERE THE MOVIE TITLES, NOT A SINGLE WORD ADDITIONALLY!`,
@@ -221,7 +224,7 @@ const getIpInfo = async function () {
 
 //# Obter clima e temperatura
 const getWeatherInfo = async function () {
-	const url = `http://localhost:5000/weather?city=${userCity}`;
+	const url = `${url}/weather?city=${userCity}`;
 	const response = await fetch(url);
 	const result = await response.json();
 
@@ -251,7 +254,7 @@ const getWeatherInfo = async function () {
 
 //# Passar query para OpenAI e obter sugestões de filmes
 const getMovieSuggestions = async function () {
-	const url = `http://localhost:5000/movie-suggestion?queryMode=${queryMode}`;
+	const url = `${url}/movie-suggestion?queryMode=${queryMode}`;
 	//console.log(queryMode);
 
 	const response = await fetch(url);
@@ -301,7 +304,7 @@ const fetchMoviesAsync = async (moviesToBeSearched) => {
 // Agora eu vou buscar os filmes pelo título, e pra cada título vou fazer uma query. Vou usar um map na função de getMovieSuggestions pra cada movie da array
 //# Buscar os filmes a partir do título na TMDBmovieTitle
 const getMovie = async function (movieTitle) {
-	const url = `http://localhost:5000/movie-info?movieTitle=${movieTitle}`;
+	const url = `${url}/movie-info?movieTitle=${movieTitle}`;
 
 	// Make request, storing response
 	const response = await fetch(url);
@@ -315,7 +318,7 @@ const getMovie = async function (movieTitle) {
 	movieList.push(movieData);
 };
 
-const getStreamingAvailability = async (tmdbId) => {
+/* const getStreamingAvailability = async (tmdbId) => {
 	const url = `https://streaming-availability.p.rapidapi.com/get/basic?country=br&tmdb_id=movie%2F${tmdbId}&output_language=en`;
 	const options = {
 		method: "GET",
@@ -335,7 +338,7 @@ const getStreamingAvailability = async (tmdbId) => {
 	} catch (error) {
 		console.error(error);
 	}
-};
+}; */
 
 //! Criação dos cards dos filmes
 const cardBuilder = async function (chosenMovie, index) {
