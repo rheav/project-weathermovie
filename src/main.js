@@ -262,6 +262,7 @@ const getMovieSuggestions = async function () {
 
 	const result = await response.json();
 	result.choices[0].message.content;
+	console.log(result);
 
 	//  Tratando retorno da OpenAI e transformando em array limpa
 	fetchedMovies = result.choices[0].message.content.split("\n").map((movie) => movie.replace(/^\d+\.\s+/, "").replace(/^"(.*)"$/, "$1")); // removing listing numbers and extra quotation marks

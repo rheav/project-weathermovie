@@ -54,6 +54,7 @@ app.get("/movie-suggestion", async (req, res) => {
 		});
 		const result = await response.json();
 		res.json(result);
+		console.log(result);
 	} catch (error) {
 		console.error("Error in /movie-suggestion route:", error);
 		res.status(500).json({ error: "An error occurred" });
