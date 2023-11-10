@@ -14,17 +14,17 @@ let movieList = [];
 let availableStreamingOptions = [];
 
 const url = "https://moviebyweather.onrender.com";
-//const url = "http://localhost:5000";
+//const url = "http://localhost:3000";
 
 const promptsAccordingToMood = [
 	{
-		hipster: `First: DONT SEND ANYTHING ELSE BESIDE MOVIE TITLES! AGAIN, ONLY PLACE MOVIE TITLES IN YOUR RESPONSE. Suggest the perfect 20 movies for a ${localWeather} ${userDayOfTheWeek} ${userCurrentTime}, in a ${localWeatherExpression} weather. FOCUS ON UNKNOW MOVIES THAT MIGHT SURPRISE THE PUBLIC. THIS IS IMPORTANT: AVOID POPULAR MAINSTREAM MOVIES. Also  provide only the movie titles, no subtitles, sinopsis or anything. This is important. Also, please avoid ambiguous movies, I need to be able to find the movies only by the title. AND PLEASE JUST POST HERE THE MOVIE TITLES, NOT A SINGLE WORD ADDITIONALLY!`,
+		hipster: `First: DONT SEND ANYTHING ELSE BESIDE MOVIE TITLES! AGAIN, ONLY PLACE MOVIE TITLES IN YOUR RESPONSE. Act as a movie curator with decades of experience in cinema and suggest the perfect 20 movies for a ${localWeather} ${userDayOfTheWeek} ${userCurrentTime}, in a ${localWeatherExpression} weather. FOCUS ON UNKNOW MOVIES THAT MIGHT SURPRISE THE PUBLIC. THIS IS IMPORTANT: AVOID POPULAR MAINSTREAM MOVIES. Also  provide only the movie titles, no subtitles, sinopsis or anything. This is important. Also, please avoid ambiguous movies, I need to be able to find the movies only by the title. Don't rush to the conclusion, take your time and be creative. AND PLEASE JUST POST HERE THE MOVIE TITLES, NOT A SINGLE WORD ADDITIONALLY!`,
 	},
 	{
-		mix: `First: DONT SEND ANYTHING ELSE BESIDE MOVIE TITLES! AGAIN, ONLY PLACE MOVIE TITLES IN YOUR RESPONSE. Suggest the perfect 20 movies for a ${localWeather} ${userDayOfTheWeek} ${userCurrentTime}, in a ${localWeatherExpression} weather. Base your choices on popular data around the internet and how people feel about movies, but also bringing some movies outside the popular radar. FOCUS ON MOVIES OUTSIDE THE MAINSTREAM MEDIA, THE MOST DIFFERENT AND UNKNOWN MOVIES BUT WELL RATED, AS POSSIBLE. AVOID MAINSTREAM MEDIA AT ALL COSTS.  Also  provide only the movie titles, no subtitles, sinopsis or anything. This is important. Also, please avoid ambiguous movies, I need to be able to find the movies only by the title. AND PLEASE JUST POST HERE THE MOVIE TITLES, NOT A SINGLE WORD ADDITIONALLY!`,
+		mix: `First: DONT SEND ANYTHING ELSE BESIDE MOVIE TITLES! AGAIN, ONLY PLACE MOVIE TITLES IN YOUR RESPONSE. Act as a movie curator with decades of experience in cinema and suggest the perfect 20 movies for a ${localWeather} ${userDayOfTheWeek} ${userCurrentTime}, in a ${localWeatherExpression} weather. Base your choices on popular data around the internet and how people feel about movies, but also bringing some movies outside the popular radar. FOCUS ON MOVIES OUTSIDE THE MAINSTREAM MEDIA, THE MOST DIFFERENT AND UNKNOWN MOVIES BUT WELL RATED, AS POSSIBLE. AVOID MAINSTREAM MEDIA AT ALL COSTS.  Also  provide only the movie titles, no subtitles, sinopsis or anything. This is important. Also, please avoid ambiguous movies, I need to be able to find the movies only by the title. Don't rush to the conclusion, take your time and be creative. AND PLEASE JUST POST HERE THE MOVIE TITLES, NOT A SINGLE WORD ADDITIONALLY!`,
 	},
 	{
-		mainstream: `First: DONT SEND ANYTHING ELSE BESIDE MOVIE TITLES! AGAIN, ONLY PLACE MOVIE TITLES IN YOUR RESPONSE. Suggest the perfect 20 movies for a ${localWeather} ${userDayOfTheWeek} ${userCurrentTime}, in a ${localWeatherExpression} weather. Base your choices on popular data around the internet and how people feel about movies. FOCUS ON MAINSTREAM MEDIA MOVIES, THE CLASSICS AND MOST AWARDED, POPULAR.  Also  provide only the movie titles, no subtitles, sinopsis or anything. This is important. Also, please avoid ambiguous movies, I need to be able to find the movies only by the title. AND PLEASE JUST POST HERE THE MOVIE TITLES, NOT A SINGLE WORD ADDITIONALLY!`,
+		mainstream: `First: DONT SEND ANYTHING ELSE BESIDE MOVIE TITLES! AGAIN, ONLY PLACE MOVIE TITLES IN YOUR RESPONSE. Act as a movie curator with decades of experience in cinema and suggest the perfect 20 movies for a ${localWeather} ${userDayOfTheWeek} ${userCurrentTime}, in a ${localWeatherExpression} weather. Base your choices on popular data around the internet and how people feel about movies. FOCUS ON MAINSTREAM MEDIA MOVIES, THE CLASSICS AND MOST AWARDED, POPULAR.  Also  provide only the movie titles, no subtitles, sinopsis or anything. This is important. Also, please avoid ambiguous movies, I need to be able to find the movies only by the title. Don't rush to the conclusion, take your time and be creative. AND PLEASE JUST POST HERE THE MOVIE TITLES, NOT A SINGLE WORD ADDITIONALLY!`,
 	},
 ];
 
@@ -231,7 +231,7 @@ const getWeatherInfo = async function () {
 	const fetchUrl = `${url}/weather?city=${userCity}`;
 	const response = await fetch(fetchUrl);
 	const result = await response.json();
-
+	console.log("✅ WeatherAPI Request Done");
 	// Passar dados para o DOM
 	localWeather = result.current.condition.text;
 	domLocalWeather.innerText = localWeather.toLowerCase();
@@ -265,7 +265,7 @@ const getMovieSuggestions = async function () {
 
 	const result = await response.json();
 	result.choices[0].message.content;
-	console.log(result);
+	console.log("✅ Open AI Request Done");
 
 	//  Tratando retorno da OpenAI e transformando em array limpa
 	fetchedMovies = result.choices[0].message.content.split("\n").map((movie) => movie.replace(/^\d+\.\s+/, "").replace(/^"(.*)"$/, "$1")); // removing listing numbers and extra quotation marks
@@ -301,6 +301,8 @@ const fetchMoviesAsync = async (moviesToBeSearched) => {
 
 	// Now you should have the correct data in movieList
 	// You can also process the movies or perform additional actions here
+	domMovieGallery.replaceChildren();
+
 	movieList.map((movie, index) => {
 		cardBuilder(movie, index);
 	});
@@ -317,6 +319,7 @@ const getMovie = async function (movieTitle) {
 	// Decode JSON response
 	const result = await response.json();
 	//console.log(result);
+	console.log("✅ TMDB Request Done");
 
 	const movieData = result.results[0];
 	// Output in console

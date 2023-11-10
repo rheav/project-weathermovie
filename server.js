@@ -5,7 +5,7 @@ require("dotenv").config();
 
 app.use(
 	cors({
-		origin: "https://moviebyweather-un1s.onrender.com", // Adjust the allowed origin(s)
+		origin: ["https://moviebyweather-un1s.onrender.com", "http://127.0.0.1:5500"],
 	})
 );
 app.use(express.json());
@@ -14,7 +14,7 @@ app.use(express.json());
 app.get("/weather", async (req, res) => {
 	try {
 		const userCity = req.query.city;
-		const weatherApiKEY = process.env.NODE_ENV_WEATHER_API_KEY; // Ensure the correct environment variable name
+		const weatherApiKEY = process.env.NODE_ENV_WEATHER_API_KEY;
 
 		const url = `http://api.weatherapi.com/v1/current.json?key=${weatherApiKEY}&q=${userCity}&aqi=no`;
 
@@ -22,6 +22,7 @@ app.get("/weather", async (req, res) => {
 		const result = await response.json();
 		res.json(result);
 	} catch (error) {
+		console.log(error);
 		console.error("Error in /weather route:", error);
 		res.status(500).json({ error: "An error occurred" });
 	}
@@ -30,7 +31,7 @@ app.get("/weather", async (req, res) => {
 // Get movie suggestions from OpenAI
 app.get("/movie-suggestion", async (req, res) => {
 	try {
-		const bearer = `Bearer ${process.env.NODE_ENV_OPEN_AI_API_KEY}`; // Ensure the correct environment variable name
+		const bearer = `Bearer ${process.env.NODE_ENV_OPEN_AI_API_KEY}`;
 		const queryMode = req.query.queryMode;
 
 		const url = "https://api.openai.com/v1/chat/completions";
@@ -42,19 +43,18 @@ app.get("/movie-suggestion", async (req, res) => {
 				Authorization: bearer,
 			},
 			body: JSON.stringify({
-				model: "gpt-3.5-turbo",
+				model: "gpt-4",
 				messages: [
 					{
 						role: "user",
 						content: queryMode,
 					},
 				],
-				temperature: 1,
+				temperature: 1.4,
 			}),
 		});
 		const result = await response.json();
-		res.json(result);
-		console.log(result);
+		res.json(result); // Send the response once
 	} catch (error) {
 		console.error("Error in /movie-suggestion route:", error);
 		res.status(500).json({ error: "An error occurred" });
@@ -64,7 +64,7 @@ app.get("/movie-suggestion", async (req, res) => {
 // Get movie data from TMDB
 app.get("/movie-info", async (req, res) => {
 	try {
-		const bearer = `Bearer ${process.env.NODE_ENV_TMDB_API_KEY}`; // Ensure the correct environment variable name
+		const bearer = `Bearer ${process.env.NODE_ENV_TMDB_API_KEY}`;
 		const movieTitle = req.query.movieTitle;
 
 		const url = `https://api.themoviedb.org/3/search/movie?query=${movieTitle}&include_adult=false&language=en-US&page=1`;
@@ -78,14 +78,14 @@ app.get("/movie-info", async (req, res) => {
 		};
 		const response = await fetch(url, options);
 		const result = await response.json();
-		res.json(result);
+		res.json(result); // Send the response once
 	} catch (error) {
 		console.error("Error in /movie-info route:", error);
 		res.status(500).json({ error: "An error occurred" });
 	}
 });
 
-const port = process.env.PORT || 3000; // Define the port, using environment variable or a default value
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
 	console.log(`Server is running on port ${port}`);
 });
