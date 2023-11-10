@@ -210,16 +210,19 @@ const getUserTime = function () {
 
 //# Ler IP
 const getIpInfo = async function () {
+	// Introduce a 1-second delay
+	await new Promise((resolve) => setTimeout(resolve, 1000));
+
 	const fetchUrl = `https://ipapi.co/json`;
 	const response = await fetch(fetchUrl);
 	const result = await response.json();
 	console.log(result);
 
-	// Passar dados para o DOM
+	// Pass data to the DOM
 	userCity = result.city;
 	domUserCity.innerText = userCity;
 
-	// Chamar getWeather para ter acesso à City
+	// Call getWeather to access the City
 	getWeatherInfo();
 };
 
