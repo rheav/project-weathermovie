@@ -210,9 +210,6 @@ const getUserTime = function () {
 
 //# Ler IP
 const getIpInfo = async function () {
-	// Introduce a 1-second delay
-	await new Promise((resolve) => setTimeout(resolve, 1000));
-
 	const fetchUrl = `https://ipapi.co/json`;
 	const response = await fetch(fetchUrl);
 	const result = await response.json();
@@ -231,7 +228,6 @@ const getWeatherInfo = async function () {
 	const fetchUrl = `${url}/weather?city=${userCity}`;
 	const response = await fetch(fetchUrl);
 	const result = await response.json();
-	console.log("✅ WeatherAPI Request Done");
 	// Passar dados para o DOM
 	localWeather = result.current.condition.text;
 	domLocalWeather.innerText = localWeather.toLowerCase();
@@ -265,7 +261,6 @@ const getMovieSuggestions = async function () {
 
 	const result = await response.json();
 	result.choices[0].message.content;
-	console.log("✅ Open AI Request Done");
 
 	//  Tratando retorno da OpenAI e transformando em array limpa
 	fetchedMovies = result.choices[0].message.content.split("\n").map((movie) => movie.replace(/^\d+\.\s+/, "").replace(/^"(.*)"$/, "$1")); // removing listing numbers and extra quotation marks
@@ -319,7 +314,6 @@ const getMovie = async function (movieTitle) {
 	// Decode JSON response
 	const result = await response.json();
 	//console.log(result);
-	console.log("✅ TMDB Request Done");
 
 	const movieData = result.results[0];
 	// Output in console
