@@ -43,7 +43,7 @@ app.get("/movie-suggestion", async (req, res) => {
 				Authorization: bearer,
 			},
 			body: JSON.stringify({
-				model: "gpt-4-1106-preview",
+				model: "gpt-4",
 				messages: [
 					{
 						role: "user",
