@@ -228,6 +228,7 @@ const getWeatherInfo = async function () {
 	const fetchUrl = `${url}/weather?city=${userCity}`;
 	const response = await fetch(fetchUrl);
 	const result = await response.json();
+	console.log(result);
 	// Passar dados para o DOM
 	localWeather = result.current.condition.text;
 	domLocalWeather.innerText = localWeather.toLowerCase();

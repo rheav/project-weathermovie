@@ -5,7 +5,7 @@ require("dotenv").config();
 
 app.use(
 	cors({
-		origin: ["https://moviebyweather-un1s.onrender.com", "http://127.0.0.1:5500"],
+		origin: ["https://moviebyweather-un1s.onrender.com"],
 	})
 );
 app.use(express.json());
