@@ -46,6 +46,7 @@ let domSkeleton = document.querySelectorAll(".skeleton");
 const domHipsterWarning = document.getElementById("hipster-warning");
 const domMixWarning = document.getElementById("mix-warning");
 const domMainstreamWarning = document.getElementById("mainstream-warning");
+const domMainText = document.querySelectorAll(".main-text");
 
 const channelImages = {
 	disney: "/assets/img/disney.svg",
@@ -240,6 +241,13 @@ const fadeOutSkeleton = () => {
 	});
 };
 
+// Fade in no texto principal
+const fadeInMainText = () => {
+	domMainText.forEach((element) => {
+		element.classList.remove("opacity-0");
+	});
+};
+
 //# Ler IP
 const getIpInfo = async function () {
 	const fetchUrl = `https://ipapi.co/json`;
@@ -389,7 +397,7 @@ const cardBuilder = async function (chosenMovie, index) {
 	// Imagem poster do filme
 	const cardPosterImg = document.createElement("img");
 	cardPosterImg.setAttribute("src", `${chosenMovie?.poster_path ? `https://image.tmdb.org/t/p/w500/${chosenMovie.poster_path}` : "/assets/img/placeholderPoster.jpeg"}`);
-	cardPosterImg.setAttribute("class", "object-contain	w-full h-auto max-w-full max-h-full transition duration-300 ease-in rounded-t-lg");
+	cardPosterImg.setAttribute("class", "object-contain	w-full h-auto max-w-[full] max-h-full transition duration-300 ease-in rounded-t-lg");
 	cardPosterImg.classList.add("opacity-0");
 
 	// Bloco do título, tags e sinopse
@@ -634,7 +642,8 @@ const renderArticles = () => {
 };
 
 // Invoking all functions
-setTimeout(fadeInSkeleton, 500);
+setTimeout(fadeInMainText, 300);
+setTimeout(fadeInSkeleton, 800);
 createMovieArticlesRepeatedly();
 getIpInfo();
 getUserTime();

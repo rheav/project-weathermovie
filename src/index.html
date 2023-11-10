@@ -22,7 +22,7 @@
 	<body class="min-h-screen h-full w-screen bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.5),rgba(255,255,255,0.1))] overflow-x-hidden">
 		<main class="py-10">
 			<div class="h-full px-8 mx-auto lg:px-16 xl:px-32">
-				<div class="mb-4 text-2xl font-thin text-white lg:text-5xl">
+				<div class="mb-4 text-2xl font-thin text-white transition duration-300 opacity-0 lg:text-5xl main-text">
 					Well,
 					<span
 						id="local-weather"
@@ -35,7 +35,7 @@
 					></span>
 					huh?
 				</div>
-				<div class="text-2xl font-thin text-white lg:text-5xl mb-7">
+				<div class="text-2xl font-thin text-white transition duration-300 opacity-0 lg:text-5xl mb-7 main-text">
 					This
 					<span
 						id="user-day"
@@ -52,9 +52,9 @@
 					></span>
 					as well, isn't it?
 				</div>
-				<div class="text-xl font-thin text-white lg:text-3xl">Perfect ambience for a movie session...</div>
-				<div class="text-xl font-thin text-white lg:text-3xl">Actually, I just found the perfect movie for you today, check this out:</div>
-				<div class="flex flex-col justify-center mt-5">
+				<div class="text-xl font-thin text-white transition duration-300 opacity-0 lg:text-3xl main-text">Perfect ambience for a movie session...</div>
+				<div class="text-xl font-thin text-white transition duration-300 opacity-0 lg:text-3xl main-text">Actually, I just found the perfect movie for you today, check this out:</div>
+				<div class="flex flex-col justify-center mt-5 transition duration-300 opacity-0 main-text">
 					<h2 class="text-xl font-thin text-violet-400 lg:text-3xl">Select your suggestion mode:</h2>
 					<div class="grid grid-cols-3 w-[200px]">
 						<input
@@ -119,6 +119,16 @@
 				></div>
 			</div>
 		</main>
+		<footer
+			class="mt-4 py-3 px-4 w-full text-xs text-white font-normal transition duration-300 ease-in bg-[rgba(120,119,198,0.5)] backdrop-blur-md border border-[rgba(120,119,198,0.5)] shadow-xl text-center"
+		>
+			Designed and developed by
+			<a
+				class="text-amber-300"
+				href="https://www.linkedin.com/in/rheavictor/"
+				>Rhea Victor</a
+			>
+		</footer>
 		<script src="main.js"></script>
 	</body>
 </html>
