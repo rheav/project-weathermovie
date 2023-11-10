@@ -13,8 +13,8 @@ let moviesSuggestedRandom = [];
 let movieList = [];
 let availableStreamingOptions = [];
 
-//const url = "https://moviebyweather.onrender.com";
-const url = "http://localhost:3000";
+const url = "https://moviebyweather.onrender.com";
+//const url = "http://localhost:3000";
 
 const promptsAccordingToMood = [
 	{
@@ -42,7 +42,10 @@ const queryModeRangeInput = document.getElementById("queryModeInput");
 const queryModeHipster = document.getElementById("inputHipster");
 const queryModeMix = document.getElementById("inputMix");
 const queryModeMainstream = document.getElementById("inputMainstream");
-const domSkeleton = document.querySelectorAll(".skeleton");
+let domSkeleton = document.querySelectorAll(".skeleton");
+const domHipsterWarning = document.getElementById("hipster-warning");
+const domMixWarning = document.getElementById("mix-warning");
+const domMainstreamWarning = document.getElementById("mainstream-warning");
 
 const channelImages = {
 	disney: "/assets/img/disney.svg",
@@ -132,19 +135,30 @@ const movieGenres = [
 
 const rangeSliderManagement = () => {
 	if (queryModeRangeInput.value < 4000) {
-		queryModeHipster.classList.add("opacity-1");
+		domHipsterWarning.classList.remove("opacity-0", "hidden");
+		domMixWarning.classList.add("opacity-0", "hidden");
+		domMainstreamWarning.classList.add("opacity-0", "hidden");
+
 		queryModeHipster.classList.remove("opacity-0");
 		queryModeMix.classList.add("opacity-0");
 		queryModeMainstream.classList.add("opacity-0");
 	} else if (queryModeRangeInput.value > 3000 && queryModeRangeInput.value < 7000) {
 		queryModeHipster.classList.add("opacity-0");
-		queryModeMix.classList.add("opacity-1");
+
+		domHipsterWarning.classList.add("opacity-0", "hidden");
+		domMixWarning.classList.remove("opacity-0", "hidden");
+		domMainstreamWarning.classList.add("opacity-0", "hidden");
+
 		queryModeMix.classList.remove("opacity-0");
 		queryModeMainstream.classList.add("opacity-0");
 	} else {
 		queryModeHipster.classList.add("opacity-0");
+
+		domHipsterWarning.classList.add("opacity-0", "hidden");
+		domMixWarning.classList.add("opacity-0", "hidden");
+		domMainstreamWarning.classList.remove("opacity-0", "hidden");
+
 		queryModeMix.classList.add("opacity-0");
-		queryModeMainstream.classList.add("opacity-1");
 		queryModeMainstream.classList.remove("opacity-0");
 	}
 };
@@ -158,6 +172,7 @@ const lastValueSlider = () => {
 		availableStreamingOptions = [];
 		queryMode = promptsAccordingToMood[0].hipster;
 		domMovieGallery.replaceChildren();
+		createMovieArticlesRepeatedly();
 		getWeatherInfo();
 	} else if (queryModeRangeInput.value > 3000 && queryModeRangeInput.value < 7000) {
 		fetchedMovies;
@@ -167,6 +182,7 @@ const lastValueSlider = () => {
 		availableStreamingOptions = [];
 		queryMode = promptsAccordingToMood[1].mix;
 		domMovieGallery.replaceChildren();
+		createMovieArticlesRepeatedly();
 		getWeatherInfo();
 	} else {
 		fetchedMovies;
@@ -176,6 +192,7 @@ const lastValueSlider = () => {
 		availableStreamingOptions = [];
 		queryMode = promptsAccordingToMood[2].mainstream;
 		domMovieGallery.replaceChildren();
+		createMovieArticlesRepeatedly();
 		getWeatherInfo();
 	}
 };
@@ -228,7 +245,7 @@ const getIpInfo = async function () {
 	const fetchUrl = `https://ipapi.co/json`;
 	const response = await fetch(fetchUrl);
 	const result = await response.json();
-	console.log(result);
+	//console.log(result);
 
 	// Pass data to the DOM
 	userCity = result.city;
@@ -243,7 +260,7 @@ const getWeatherInfo = async function () {
 	const fetchUrl = `${url}/weather?city=${userCity}`;
 	const response = await fetch(fetchUrl);
 	const result = await response.json();
-	console.log(result);
+	//console.log(result);
 	// Passar dados para o DOM
 	localWeather = result.current.condition.text;
 	domLocalWeather.innerText = localWeather.toLowerCase();
@@ -527,74 +544,97 @@ const cardBuilder = async function (chosenMovie, index) {
 };
 
 const createMovieArticle = () => {
-	// Card do filme
-	const skeletonCard = document.createElement("article");
-	skeletonCard.className = "relative flex flex-col h-full transition duration-700 ease-in-out w-full max-w-[400px] mx-auto cursor-pointer group border-4 border-transparent rounded-xl ";
+	return new Promise((resolve) => {
+		// Card do filme
+		const skeletonCard = document.createElement("article");
+		skeletonCard.className =
+			"skeleton relative flex flex-col h-full transition duration-700 ease-in-out w-full max-w-[400px] mx-auto cursor-pointer group border-4 border-transparent rounded-xl opacity-0";
 
-	// Movie poster do skeleton
-	const skeletonPoster = document.createElement("img");
-	skeletonPoster.src = "https://raw.githubusercontent.com/rheav/project-weathermovie/main/assets/img/placeholderPoster.jpeg";
-	skeletonPoster.className = "object-contain w-full h-auto max-w-full max-h-full transition duration-700 ease-in rounded-t-lg brightness-50 animate-pulse";
+		// Movie poster do skeleton
+		const skeletonPoster = document.createElement("img");
+		skeletonPoster.src = "https://raw.githubusercontent.com/rheav/project-weathermovie/main/assets/img/placeholderPoster.jpeg";
+		skeletonPoster.className = "object-contain w-full h-auto max-w-full max-h-full transition duration-700 ease-in rounded-t-lg brightness-50 animate-pulse";
 
-	// Bloco de info do skeleton
-	const skeletonInfo = document.createElement("div");
-	skeletonInfo.className =
-		"flex px-3 pt-6 pb-4 w-full flex-col rounded-b-lg h-44 md:h-52 bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] transition duration-700 ease-in";
+		// Bloco de info do skeleton
+		const skeletonInfo = document.createElement("div");
+		skeletonInfo.className =
+			"flex px-3 pt-6 pb-4 w-full flex-col rounded-b-lg h-44 md:h-52 bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] transition duration-700 ease-in";
 
-	// bloco de votos e popularidade dentro do info
-	const skeletonVotesNPop = document.createElement("div");
-	skeletonVotesNPop.className = "flex items-center gap-6 mb-1 animate-pulse";
+		// bloco de votos e popularidade dentro do info
+		const skeletonVotesNPop = document.createElement("div");
+		skeletonVotesNPop.className = "flex items-center gap-6 mb-1 animate-pulse";
 
-	// div pra cada vote N pop
-	const voteNpop1 = document.createElement("div");
-	voteNpop1.className = "col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4";
-	const voteNpop2 = document.createElement("div");
-	voteNpop2.className = "col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4";
+		// div pra cada vote N pop
+		const voteNpop1 = document.createElement("div");
+		voteNpop1.className = "col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4";
+		const voteNpop2 = document.createElement("div");
+		voteNpop2.className = "col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4";
 
-	// title skeleton
-	const skeletonTitle = document.createElement("div");
-	skeletonTitle.className = "col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-3/4 my-4 animate-pulse";
+		// title skeleton
+		const skeletonTitle = document.createElement("div");
+		skeletonTitle.className = "col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-3/4 my-4 animate-pulse";
 
-	// year skeleton
-	const skeletonYear = document.createElement("div");
-	skeletonYear.className = "col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4 animate-pulse";
+		// year skeleton
+		const skeletonYear = document.createElement("div");
+		skeletonYear.className = "col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4 animate-pulse";
 
-	// genre badges wrapper skeleton
-	const skletonGenreBadWrapper = document.createElement("div");
-	skletonGenreBadWrapper.className = "flex flex-wrap gap-4 mt-[5.5rem] animate-pulse";
+		// genre badges wrapper skeleton
+		const skletonGenreBadWrapper = document.createElement("div");
+		skletonGenreBadWrapper.className = "flex flex-wrap gap-4 mt-[5.5rem] animate-pulse";
 
-	// genre badges skeleton
-	const genreBadge1 = document.createElement("div");
-	genreBadge1.className = "h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4";
-	const genreBadge2 = document.createElement("div");
-	genreBadge2.className = "h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4";
-	const genreBadge3 = document.createElement("div");
-	genreBadge3.className = "h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4";
+		// genre badges skeleton
+		const genreBadge1 = document.createElement("div");
+		genreBadge1.className = "h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4";
+		const genreBadge2 = document.createElement("div");
+		genreBadge2.className = "h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4";
+		const genreBadge3 = document.createElement("div");
+		genreBadge3.className = "h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4";
 
-	domMovieGallery.appendChild(skeletonCard);
-	skeletonCard.appendChild(skeletonPoster);
-	skeletonCard.appendChild(skeletonInfo);
-	skeletonInfo.appendChild(skeletonVotesNPop);
-	skeletonInfo.appendChild(skeletonTitle);
-	skeletonInfo.appendChild(skeletonYear);
-	skeletonInfo.appendChild(skletonGenreBadWrapper);
-	skeletonVotesNPop.appendChild(voteNpop1);
-	skeletonVotesNPop.appendChild(voteNpop2);
-	skletonGenreBadWrapper.appendChild(genreBadge1);
-	skletonGenreBadWrapper.appendChild(genreBadge2);
-	skletonGenreBadWrapper.appendChild(genreBadge3);
+		domMovieGallery.appendChild(skeletonCard);
+		skeletonCard.appendChild(skeletonPoster);
+		skeletonCard.appendChild(skeletonInfo);
+		skeletonInfo.appendChild(skeletonVotesNPop);
+		skeletonInfo.appendChild(skeletonTitle);
+		skeletonInfo.appendChild(skeletonYear);
+		skeletonInfo.appendChild(skletonGenreBadWrapper);
+		skeletonVotesNPop.appendChild(voteNpop1);
+		skeletonVotesNPop.appendChild(voteNpop2);
+		skletonGenreBadWrapper.appendChild(genreBadge1);
+		skletonGenreBadWrapper.appendChild(genreBadge2);
+		skletonGenreBadWrapper.appendChild(genreBadge3);
+
+		setTimeout(() => {
+			resolve(); // Resolve the promise to signal that the article is created
+		}, 500);
+	});
+};
+
+const createMovieArticlesRepeatedly = async () => {
+	let createArticlePromises = [];
+
+	// Create an array of promises for each article creation
+	for (let i = 0; i < 8; i++) {
+		createArticlePromises.push(createMovieArticle());
+	}
+
+	// Wait for all promises to resolve before rendering
+	await Promise.all(createArticlePromises);
+
+	// After all articles are created, render them
+	renderArticles();
+
+	createArticlePromises = [];
+};
+
+const renderArticles = () => {
+	domSkeleton = document.querySelectorAll(".skeleton"); // Replace with your actual article class
+	domSkeleton.forEach((skeleton) => {
+		skeleton.classList.remove("opacity-0");
+	});
 };
 
 // Invoking all functions
 setTimeout(fadeInSkeleton, 500);
-
+createMovieArticlesRepeatedly();
 getIpInfo();
 getUserTime();
-const createMovieArticlesRepeatedly = () => {
-	// Call createMovieArticle eight times with a delay of 500ms between each call
-	for (let i = 0; i < 8; i++) {
-		setTimeout(createMovieArticle, i * 500);
-	}
-};
-
-createMovieArticlesRepeatedly();
