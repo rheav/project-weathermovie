@@ -5,7 +5,7 @@ require("dotenv").config();
 
 app.use(
 	cors({
-		origin: ["https://moviebyweather-un1s.onrender.com"],
+		origin: ["https://moviebyweather-un1s.onrender.com", "http://127.0.0.1:5501"],
 	})
 );
 app.use(express.json());
@@ -43,7 +43,7 @@ app.get("/movie-suggestion", async (req, res) => {
 				Authorization: bearer,
 			},
 			body: JSON.stringify({
-				model: "gpt-4",
+				model: "gpt-3.5-turbo",
 				messages: [
 					{
 						role: "user",
@@ -54,7 +54,7 @@ app.get("/movie-suggestion", async (req, res) => {
 			}),
 		});
 		const result = await response.json();
-		res.json(result); // Send the response once
+		res.json(result);
 	} catch (error) {
 		console.error("Error in /movie-suggestion route:", error);
 		res.status(500).json({ error: "An error occurred" });

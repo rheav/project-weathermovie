@@ -13,8 +13,8 @@ let moviesSuggestedRandom = [];
 let movieList = [];
 let availableStreamingOptions = [];
 
-const url = "https://moviebyweather.onrender.com";
-//const url = "http://localhost:3000";
+//const url = "https://moviebyweather.onrender.com";
+const url = "http://localhost:3000";
 
 const promptsAccordingToMood = [
 	{
@@ -42,6 +42,7 @@ const queryModeRangeInput = document.getElementById("queryModeInput");
 const queryModeHipster = document.getElementById("inputHipster");
 const queryModeMix = document.getElementById("inputMix");
 const queryModeMainstream = document.getElementById("inputMainstream");
+const domSkeleton = document.querySelectorAll(".skeleton");
 
 const channelImages = {
 	disney: "/assets/img/disney.svg",
@@ -208,6 +209,20 @@ const getUserTime = function () {
 	domUserCurrentTime.innerText = userCurrentTime;
 };
 
+// Fade in nos skeleton
+const fadeInSkeleton = () => {
+	domSkeleton.forEach((element) => {
+		element.classList.remove("opacity-0");
+	});
+};
+
+// Fade out nos skeleton
+const fadeOutSkeleton = () => {
+	domSkeleton.forEach((element) => {
+		element.classList.add("opacity-0");
+	});
+};
+
 //# Ler IP
 const getIpInfo = async function () {
 	const fetchUrl = `https://ipapi.co/json`;
@@ -294,9 +309,7 @@ const fetchMoviesAsync = async (moviesToBeSearched) => {
 	for (const movieTitle of moviesToBeSearched) {
 		await getMovie(movieTitle);
 	}
-
-	// Now you should have the correct data in movieList
-	// You can also process the movies or perform additional actions here
+	fadeOutSkeleton();
 	domMovieGallery.replaceChildren();
 
 	movieList.map((movie, index) => {
@@ -352,13 +365,15 @@ const cardBuilder = async function (chosenMovie, index) {
 	const card = document.createElement("article");
 	card.setAttribute(
 		"class",
-		"relative flex flex-col h-full transition duration-300 ease-in w-full max-w-[400px] mx-auto cursor-pointer group border-4 border-transparent rounded-xl hover:border-4 hover:border-[rgba(120,119,198,0.8)] hover:shadow-xl hover:shadow-[rgba(120,119,198,0.8)]"
+		"relative flex flex-col h-full transition duration-300 ease-in w-full max-w-[400px] mx-auto cursor-pointer group border-4 border-transparent rounded-xl hover:border-4 hover:border-[rgba(120,119,198,0.8)] hover:shadow-xl hover:shadow-[rgba(120,119,198,0.8)] "
 	);
+	card.classList.add("opacity-0");
 
 	// Imagem poster do filme
 	const cardPosterImg = document.createElement("img");
-	cardPosterImg.setAttribute("src", `${chosenMovie.poster_path ? `https://image.tmdb.org/t/p/w500/${chosenMovie.poster_path}` : "/assets/img/placeholderPoster.jpeg"}`);
+	cardPosterImg.setAttribute("src", `${chosenMovie?.poster_path ? `https://image.tmdb.org/t/p/w500/${chosenMovie.poster_path}` : "/assets/img/placeholderPoster.jpeg"}`);
 	cardPosterImg.setAttribute("class", "object-contain	w-full h-auto max-w-full max-h-full transition duration-300 ease-in rounded-t-lg");
+	cardPosterImg.classList.add("opacity-0");
 
 	// Bloco do título, tags e sinopse
 	const cardInfo = document.createElement("div");
@@ -366,6 +381,7 @@ const cardBuilder = async function (chosenMovie, index) {
 		"class",
 		" flex px-3 pt-3 pb-4 w-full flex-col rounded-b-lg h-44 md:h-52 bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]  transition duration-300 ease-in"
 	);
+	cardInfo.classList.add("opacity-0");
 
 	// Bloco para Notas e Popularidade
 	const cardInfoVotesAndPop = document.createElement("div");
@@ -502,8 +518,74 @@ const cardBuilder = async function (chosenMovie, index) {
 
 	// Conteúdo Sinopse
 	cardSinopse.appendChild(cardSinopseContent);
+
+	setTimeout(() => {
+		card.classList.remove("opacity-0");
+		cardPosterImg.classList.remove("opacity-0");
+		cardInfo.classList.remove("opacity-0");
+	}, 700); // Adjust the delay as needed
 };
 
 // Invoking all functions
-getIpInfo();
-getUserTime();
+setTimeout(fadeInSkeleton, 500);
+
+/* getIpInfo();
+getUserTime(); */
+
+const createMovieArticle = () => {
+	// Create article element
+	const article = document.createElement("article");
+	article.className = "relative flex flex-col h-full transition duration-700 ease-in-out w-full max-w-[400px] mx-auto cursor-pointer group border-4 border-transparent rounded-xl skeleton ";
+
+	// Create img element
+	const img = document.createElement("img");
+	img.src = "https://raw.githubusercontent.com/rheav/project-weathermovie/main/assets/img/placeholderPoster.jpeg";
+	img.className = "object-contain w-full h-auto max-w-full max-h-full transition duration-700 ease-in rounded-t-lg brightness-50 animate-pulse";
+
+	// Create div element for content
+	const contentDiv = document.createElement("div");
+	contentDiv.className =
+		"flex px-3 pt-6 pb-4 w-full flex-col rounded-b-lg h-44 md:h-52 bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] transition duration-700 ease-in";
+
+	// Create div elements for pulse animations
+	const pulseDivContainer = document.createElement("div");
+	pulseDivContainer.className = "flex items-center gap-6 mb-1 animate-pulse";
+
+	const pulseDiv1 = createPulseDiv("col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4");
+	const pulseDiv2 = createPulseDiv("col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4");
+
+	pulseDivContainer.appendChild(pulseDiv1);
+	pulseDivContainer.appendChild(pulseDiv2);
+
+	const pulseDiv3 = createPulseDiv("col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-3/4 my-4");
+	const pulseDiv4 = createPulseDiv("col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4");
+
+	const pulseDivWrapContainer = document.createElement("div");
+	pulseDivWrapContainer.className = "flex flex-wrap gap-4 mt-[5.5rem] animate-pulse";
+
+	const pulseDiv5 = createPulseDiv("h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4");
+	const pulseDiv6 = createPulseDiv("h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4");
+	const pulseDiv7 = createPulseDiv("h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4");
+
+	pulseDivWrapContainer.appendChild(pulseDiv5);
+	pulseDivWrapContainer.appendChild(pulseDiv6);
+	pulseDivWrapContainer.appendChild(pulseDiv7);
+
+	// Append elements to the article
+	article.appendChild(img);
+	contentDiv.appendChild(pulseDivContainer);
+	contentDiv.appendChild(pulseDiv3);
+	contentDiv.appendChild(pulseDiv4);
+	contentDiv.appendChild(pulseDivWrapContainer);
+	article.appendChild(contentDiv);
+
+	domMovieGallery.appendChild(article);
+	return article;
+};
+
+// Helper function to create pulse div elements
+const createPulseDiv = (className) => {
+	const pulseDiv = document.createElement("div");
+	pulseDiv.className = className + " animate-pulse";
+	return pulseDiv;
+};
