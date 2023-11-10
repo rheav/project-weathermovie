@@ -50,7 +50,7 @@ app.get("/movie-suggestion", async (req, res) => {
 						content: queryMode,
 					},
 				],
-				temperature: 1.4,
+				temperature: 0.8,
 			}),
 		});
 		const result = await response.json();
