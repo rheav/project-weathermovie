@@ -13,8 +13,8 @@ let moviesSuggestedRandom = [];
 let movieList = [];
 let availableStreamingOptions = [];
 
-const url = "https://moviebyweather.onrender.com";
-//const url = "http://localhost:3000";
+//const url = "https://moviebyweather.onrender.com";
+const url = "http://localhost:3000";
 
 const promptsAccordingToMood = [
 	{
@@ -390,7 +390,7 @@ const cardBuilder = async function (chosenMovie, index) {
 	const card = document.createElement("article");
 	card.setAttribute(
 		"class",
-		"relative flex flex-col h-full transition duration-300 ease-in w-full max-w-[400px] mx-auto cursor-pointer group border-4 border-transparent rounded-xl hover:border-4 hover:border-[rgba(120,119,198,0.8)] hover:shadow-xl hover:shadow-[rgba(120,119,198,0.8)] "
+		"relative flex flex-col h-full transition duration-300 ease-in w-full max-w-[350px] mx-auto cursor-pointer group border-4 border-transparent rounded-xl hover:border-4 hover:border-[rgba(120,119,198,0.8)] hover:shadow-xl hover:shadow-[rgba(120,119,198,0.8)] "
 	);
 	card.classList.add("opacity-0");
 
@@ -400,14 +400,14 @@ const cardBuilder = async function (chosenMovie, index) {
 		"src",
 		`${chosenMovie?.poster_path ? `https://image.tmdb.org/t/p/w500/${chosenMovie.poster_path}` : "https://raw.githubusercontent.com/rheav/project-weathermovie/main/assets/img/placeholderPoster.jpeg"}`
 	);
-	cardPosterImg.setAttribute("class", "object-contain	w-full h-auto max-w-[full] max-h-full transition duration-300 ease-in rounded-t-lg");
+	cardPosterImg.setAttribute("class", "object-contain	w-full h-auto max-w-[350px] max-h-full transition duration-300 ease-in rounded-t-lg");
 	cardPosterImg.classList.add("opacity-0");
 
 	// Bloco do título, tags e sinopse
 	const cardInfo = document.createElement("div");
 	cardInfo.setAttribute(
 		"class",
-		" flex px-3 pt-3 pb-4 w-full flex-col rounded-b-lg h-44 md:h-52 bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]  transition duration-300 ease-in"
+		" flex px-3 pt-3 pb-4 w-full flex-col rounded-b-lg h-44 max-h-44 bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]  transition duration-300 ease-in"
 	);
 	cardInfo.classList.add("opacity-0");
 
@@ -559,17 +559,17 @@ const createMovieArticle = () => {
 		// Card do filme
 		const skeletonCard = document.createElement("article");
 		skeletonCard.className =
-			"skeleton relative flex flex-col h-full transition duration-700 ease-in-out w-full max-w-[400px] mx-auto cursor-pointer group border-4 border-transparent rounded-xl opacity-0";
+			"skeleton relative flex flex-col h-full transition duration-700 ease-in-out w-full max-w-[350px] mx-auto cursor-pointer group border-4 border-transparent rounded-xl opacity-0";
 
 		// Movie poster do skeleton
 		const skeletonPoster = document.createElement("img");
 		skeletonPoster.src = "https://raw.githubusercontent.com/rheav/project-weathermovie/main/assets/img/placeholderPoster.jpeg";
-		skeletonPoster.className = "object-contain w-full h-auto max-w-full max-h-full transition duration-700 ease-in rounded-t-lg brightness-50 animate-pulse";
+		skeletonPoster.className = "object-contain w-full h-auto max-w-[350px] max-h-full transition duration-700 ease-in rounded-t-lg brightness-50 animate-pulse";
 
 		// Bloco de info do skeleton
 		const skeletonInfo = document.createElement("div");
 		skeletonInfo.className =
-			"flex px-3 pt-6 pb-4 w-full flex-col rounded-b-lg h-44 md:h-52 bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] transition duration-700 ease-in";
+			"flex px-3 pt-6 pb-4 w-full flex-col rounded-b-lg h-44 max-h-44 bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] transition duration-700 ease-in";
 
 		// bloco de votos e popularidade dentro do info
 		const skeletonVotesNPop = document.createElement("div");

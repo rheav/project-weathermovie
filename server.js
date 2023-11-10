@@ -43,17 +43,18 @@ app.get("/movie-suggestion", async (req, res) => {
 				Authorization: bearer,
 			},
 			body: JSON.stringify({
-				model: "gpt-4",
+				model: "gpt-3.5-turbo",
 				messages: [
 					{
 						role: "user",
 						content: queryMode,
 					},
 				],
-				temperature: 0.8,
+				temperature: 0.5,
 			}),
 		});
 		const result = await response.json();
+		console.log(result);
 		res.json(result);
 	} catch (error) {
 		console.error("Error in /movie-suggestion route:", error);
