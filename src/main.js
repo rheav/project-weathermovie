@@ -526,66 +526,75 @@ const cardBuilder = async function (chosenMovie, index) {
 	}, 700); // Adjust the delay as needed
 };
 
+const createMovieArticle = () => {
+	// Card do filme
+	const skeletonCard = document.createElement("article");
+	skeletonCard.className = "relative flex flex-col h-full transition duration-700 ease-in-out w-full max-w-[400px] mx-auto cursor-pointer group border-4 border-transparent rounded-xl ";
+
+	// Movie poster do skeleton
+	const skeletonPoster = document.createElement("img");
+	skeletonPoster.src = "https://raw.githubusercontent.com/rheav/project-weathermovie/main/assets/img/placeholderPoster.jpeg";
+	skeletonPoster.className = "object-contain w-full h-auto max-w-full max-h-full transition duration-700 ease-in rounded-t-lg brightness-50 animate-pulse";
+
+	// Bloco de info do skeleton
+	const skeletonInfo = document.createElement("div");
+	skeletonInfo.className =
+		"flex px-3 pt-6 pb-4 w-full flex-col rounded-b-lg h-44 md:h-52 bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] transition duration-700 ease-in";
+
+	// bloco de votos e popularidade dentro do info
+	const skeletonVotesNPop = document.createElement("div");
+	skeletonVotesNPop.className = "flex items-center gap-6 mb-1 animate-pulse";
+
+	// div pra cada vote N pop
+	const voteNpop1 = document.createElement("div");
+	voteNpop1.className = "col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4";
+	const voteNpop2 = document.createElement("div");
+	voteNpop2.className = "col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4";
+
+	// title skeleton
+	const skeletonTitle = document.createElement("div");
+	skeletonTitle.className = "col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-3/4 my-4 animate-pulse";
+
+	// year skeleton
+	const skeletonYear = document.createElement("div");
+	skeletonYear.className = "col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4 animate-pulse";
+
+	// genre badges wrapper skeleton
+	const skletonGenreBadWrapper = document.createElement("div");
+	skletonGenreBadWrapper.className = "flex flex-wrap gap-4 mt-[5.5rem] animate-pulse";
+
+	// genre badges skeleton
+	const genreBadge1 = document.createElement("div");
+	genreBadge1.className = "h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4";
+	const genreBadge2 = document.createElement("div");
+	genreBadge2.className = "h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4";
+	const genreBadge3 = document.createElement("div");
+	genreBadge3.className = "h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4";
+
+	domMovieGallery.appendChild(skeletonCard);
+	skeletonCard.appendChild(skeletonPoster);
+	skeletonCard.appendChild(skeletonInfo);
+	skeletonInfo.appendChild(skeletonVotesNPop);
+	skeletonInfo.appendChild(skeletonTitle);
+	skeletonInfo.appendChild(skeletonYear);
+	skeletonInfo.appendChild(skletonGenreBadWrapper);
+	skeletonVotesNPop.appendChild(voteNpop1);
+	skeletonVotesNPop.appendChild(voteNpop2);
+	skletonGenreBadWrapper.appendChild(genreBadge1);
+	skletonGenreBadWrapper.appendChild(genreBadge2);
+	skletonGenreBadWrapper.appendChild(genreBadge3);
+};
+
 // Invoking all functions
 setTimeout(fadeInSkeleton, 500);
 
-/* getIpInfo();
-getUserTime(); */
-
-const createMovieArticle = () => {
-	// Create article element
-	const article = document.createElement("article");
-	article.className = "relative flex flex-col h-full transition duration-700 ease-in-out w-full max-w-[400px] mx-auto cursor-pointer group border-4 border-transparent rounded-xl skeleton ";
-
-	// Create img element
-	const img = document.createElement("img");
-	img.src = "https://raw.githubusercontent.com/rheav/project-weathermovie/main/assets/img/placeholderPoster.jpeg";
-	img.className = "object-contain w-full h-auto max-w-full max-h-full transition duration-700 ease-in rounded-t-lg brightness-50 animate-pulse";
-
-	// Create div element for content
-	const contentDiv = document.createElement("div");
-	contentDiv.className =
-		"flex px-3 pt-6 pb-4 w-full flex-col rounded-b-lg h-44 md:h-52 bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] transition duration-700 ease-in";
-
-	// Create div elements for pulse animations
-	const pulseDivContainer = document.createElement("div");
-	pulseDivContainer.className = "flex items-center gap-6 mb-1 animate-pulse";
-
-	const pulseDiv1 = createPulseDiv("col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4");
-	const pulseDiv2 = createPulseDiv("col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4");
-
-	pulseDivContainer.appendChild(pulseDiv1);
-	pulseDivContainer.appendChild(pulseDiv2);
-
-	const pulseDiv3 = createPulseDiv("col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-3/4 my-4");
-	const pulseDiv4 = createPulseDiv("col-span-4 h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4");
-
-	const pulseDivWrapContainer = document.createElement("div");
-	pulseDivWrapContainer.className = "flex flex-wrap gap-4 mt-[5.5rem] animate-pulse";
-
-	const pulseDiv5 = createPulseDiv("h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4");
-	const pulseDiv6 = createPulseDiv("h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4");
-	const pulseDiv7 = createPulseDiv("h-2 bg-[rgba(120,119,198,0.3)] rounded-full w-1/4");
-
-	pulseDivWrapContainer.appendChild(pulseDiv5);
-	pulseDivWrapContainer.appendChild(pulseDiv6);
-	pulseDivWrapContainer.appendChild(pulseDiv7);
-
-	// Append elements to the article
-	article.appendChild(img);
-	contentDiv.appendChild(pulseDivContainer);
-	contentDiv.appendChild(pulseDiv3);
-	contentDiv.appendChild(pulseDiv4);
-	contentDiv.appendChild(pulseDivWrapContainer);
-	article.appendChild(contentDiv);
-
-	domMovieGallery.appendChild(article);
-	return article;
+getIpInfo();
+getUserTime();
+const createMovieArticlesRepeatedly = () => {
+	// Call createMovieArticle eight times with a delay of 500ms between each call
+	for (let i = 0; i < 8; i++) {
+		setTimeout(createMovieArticle, i * 500);
+	}
 };
 
-// Helper function to create pulse div elements
-const createPulseDiv = (className) => {
-	const pulseDiv = document.createElement("div");
-	pulseDiv.className = className + " animate-pulse";
-	return pulseDiv;
-};
+createMovieArticlesRepeatedly();
