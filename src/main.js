@@ -13,8 +13,8 @@ let moviesSuggestedRandom = [];
 let movieList = [];
 let availableStreamingOptions = [];
 
-//const url = "https://moviebyweather.onrender.com";
-const url = "http://localhost:3000";
+const url = "https://moviebyweather.onrender.com";
+//const url = "http://localhost:3000";
 
 const promptsAccordingToMood = [
 	{
