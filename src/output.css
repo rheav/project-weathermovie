@@ -574,6 +574,11 @@ video {
   grid-column: span 4 / span 4;
 }
 
+.mx-0 {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -587,11 +592,6 @@ video {
 .my-5 {
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
-}
-
-.mx-0 {
-  margin-left: 0px;
-  margin-right: 0px;
 }
 
 .mb-1 {
@@ -642,6 +642,10 @@ video {
   margin-top: 5.5rem;
 }
 
+.mt-\[3\.5rem\] {
+  margin-top: 3.5rem;
+}
+
 .block {
   display: block;
 }
@@ -674,16 +678,16 @@ video {
   height: 11rem;
 }
 
+.h-52 {
+  height: 13rem;
+}
+
 .h-auto {
   height: auto;
 }
 
 .h-full {
   height: 100%;
-}
-
-.h-52 {
-  height: 13rem;
 }
 
 .max-h-44 {
@@ -730,12 +734,12 @@ video {
   width: 100vw;
 }
 
-.max-w-\[350px\] {
-  max-width: 350px;
+.w-\[350px\] {
+  width: 350px;
 }
 
-.max-w-\[400px\] {
-  max-width: 400px;
+.max-w-\[350px\] {
+  max-width: 350px;
 }
 
 .max-w-full {
@@ -744,6 +748,18 @@ video {
 
 .max-w-sm {
   max-width: 24rem;
+}
+
+.max-w-\[400px\] {
+  max-width: 400px;
+}
+
+.max-w-\[full\] {
+  max-width: full;
+}
+
+.max-w-\[370px\] {
+  max-width: 370px;
 }
 
 .basis-full {
@@ -794,6 +810,14 @@ video {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.grid-cols-5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.grid-cols-10 {
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+
 .flex-col {
   flex-direction: column;
 }
@@ -812,6 +836,22 @@ video {
 
 .justify-center {
   justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-around {
+  justify-content: space-around;
+}
+
+.justify-evenly {
+  justify-content: space-evenly;
+}
+
+.justify-items-stretch {
+  justify-items: stretch;
 }
 
 .gap-2 {
@@ -918,6 +958,11 @@ video {
      object-fit: contain;
 }
 
+.px-16 {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -958,9 +1003,39 @@ video {
   padding-bottom: 2rem;
 }
 
-.px-16 {
-  padding-left: 4rem;
-  padding-right: 4rem;
+.px-52 {
+  padding-left: 13rem;
+  padding-right: 13rem;
+}
+
+.px-32 {
+  padding-left: 8rem;
+  padding-right: 8rem;
+}
+
+.py-24 {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+.px-44 {
+  padding-left: 11rem;
+  padding-right: 11rem;
+}
+
+.px-28 {
+  padding-left: 7rem;
+  padding-right: 7rem;
+}
+
+.px-20 {
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+
+.px-24 {
+  padding-left: 6rem;
+  padding-right: 6rem;
 }
 
 .pb-3 {
@@ -1001,6 +1076,11 @@ video {
   line-height: 2.25rem;
 }
 
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
+}
+
 .text-\[0\.625rem\] {
   font-size: 0.625rem;
 }
@@ -1023,11 +1103,6 @@ video {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
-}
-
-.text-5xl {
-  font-size: 3rem;
-  line-height: 1;
 }
 
 .font-bold {
@@ -1254,14 +1329,61 @@ input[type=range]::-webkit-slider-runnable-track {
     height: 13rem;
   }
 
+  .md\:h-44 {
+    height: 11rem;
+  }
+
   .md\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .md\:px-16 {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  .md\:px-52 {
+    padding-left: 13rem;
+    padding-right: 13rem;
+  }
+
+  .md\:px-32 {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
+
+  .md\:px-44 {
+    padding-left: 11rem;
+    padding-right: 11rem;
+  }
+
+  .md\:px-28 {
+    padding-left: 7rem;
+    padding-right: 7rem;
+  }
+
+  .md\:px-20 {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+
+  .md\:px-24 {
+    padding-left: 6rem;
+    padding-right: 6rem;
   }
 }
 
 @media (min-width: 1024px) {
   .lg\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .lg\:grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
   .lg\:px-16 {
@@ -1281,6 +1403,10 @@ input[type=range]::-webkit-slider-runnable-track {
 }
 
 @media (min-width: 1280px) {
+  .xl\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
   .xl\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
